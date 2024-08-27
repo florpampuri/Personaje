@@ -7,18 +7,15 @@ namespace Evaluacion_Integradora
 {
     public partial class FormPrincipal : Form
     {
-        //atributos // iniciamos lista de personajes
-        private List<Personaje> misPersonajes;
-
         public FormPrincipal()
         {
             InitializeComponent();
         }
 
-        //precarga de lista de personajes vacia
         private void FormPrincipal_Load(object sender, EventArgs e)
         {
-            this.misPersonajes = new List<Personaje>();
+            dataGridView1.RowHeadersVisible = false;
+            ActualizarDataGrid();
         }
 
         private void btn_agregar_Click(object sender, EventArgs e)
@@ -28,38 +25,8 @@ namespace Evaluacion_Integradora
 
             if (formCrear.DialogResult == DialogResult.OK)
             {
-                misPersonajes.Add(formCrear.miPersonaje);
-                dataGridView1.DataSource = null;
-                dataGridView1.DataSource = misPersonajes;
-            }
-        }
-
-        private void btn_modificar_Click(object sender, EventArgs e)
-        {
-            Personaje pjEditar = dataGridView1.CurrentRow.DataBoundItem as Personaje;
-            FormModificar formModificar = new FormModificar(pjEditar);
-
-            formModificar.ShowDialog();
-
-            if (formModificar.DialogResult == DialogResult.OK)
-            {
-                int index = -1;
-
-                foreach (Personaje item in misPersonajes)
-                {
-                    if (item.Id == formModificar.MiPersonaje.Id)
-                    {
-                        index = misPersonajes.IndexOf(item);
-                    }
-                }
-
-                if (index != -1)
-                {
-                    misPersonajes[index] = formModificar.MiPersonaje;
-                }
-
-                dataGridView1.DataSource = null;
-                dataGridView1.DataSource = misPersonajes;
+                Personaje_Ado.Guardar(formCrear.miPersonaje);
+                ActualizarDataGrid();
             }
         }
 
@@ -70,29 +37,41 @@ namespace Evaluacion_Integradora
             DialogResult rpta = MessageBox.Show($"¿Está seguro de que desea eliminar el Personaje {pjEliminar.NombreReal}?\n" +
                 $"ESTA ACCION ES IRREVERSIBLE", "ELIMINAR", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning);
 
-            //int index = -1;
-
             if (rpta == DialogResult.OK)
             {
-                misPersonajes.Remove(pjEliminar);
+                if (Personaje_Ado.EliminarUno(pjEliminar.Id))
+                {
+                    MessageBox.Show($"Se eliminó el Personaje {pjEliminar.NombreReal}", "Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Falló la conexion con la base de datos");
+                }
+            }
 
+            ActualizarDataGrid();
+        }
 
-                ////Si no modificamos el metodo Equals:
+        private void btn_modificar_Click(object sender, EventArgs e)
+        {
+            Personaje pjModificar = dataGridView1.CurrentRow.DataBoundItem as Personaje;
 
-                //foreach (Personaje item in misPersonajes)
-                //{
-                //   if (item.NombreReal == pjEliminar.NombreReal)
-                //   {
-                //        index = misPersonajes.IndexOf(item);
-                //   }
-                //}
+            FormModificar formModificar = new FormModificar();
+            formModificar.ShowDialog();
 
-                //misPersonajes.RemoveAt(index);
-
-
-                dataGridView1.DataSource = null;
-                dataGridView1.DataSource = misPersonajes;
+            if (formModificar.DialogResult == DialogResult.OK)
+            {
+                Personaje_Ado.Modificar(formModificar.miPersonaje);
+                ActualizarDataGrid();
             }
         }
-    }
+
+        
+        //Metodo para actualizar el data grid con la base de datos
+        private void ActualizarDataGrid()
+        {
+            dataGridView1.DataSource = null;
+            dataGridView1.DataSource = Personaje_Ado.LeerTodos();
+        }
+    }  
 }

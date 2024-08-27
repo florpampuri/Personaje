@@ -87,7 +87,7 @@ namespace Evaluacion_Integradora
                     }
                 }
 
-                this.miPersonaje = new Heroe(id, nombreReal, nombrePersonaje, lugarOrigen, alianza);
+                this.miPersonaje = new Heroe(nombreReal, nombrePersonaje, lugarOrigen, alianza);
 
                 foreach (CheckBox item in grp_habilidades.Controls)
                 {
@@ -109,7 +109,7 @@ namespace Evaluacion_Integradora
             {
                 string planMalvado = rtx_planMalvado.Text;
 
-                this.miPersonaje = new Villano(id, nombreReal, nombrePersonaje, lugarOrigen, planMalvado);
+                this.miPersonaje = new Villano(nombreReal, nombrePersonaje, lugarOrigen, planMalvado);
 
                 foreach (CheckBox item in grp_habilidades.Controls)
                 {
