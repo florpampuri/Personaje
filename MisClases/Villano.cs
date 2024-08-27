@@ -14,8 +14,8 @@ namespace MisClases
 
 
         //Tiene un único constructor público, parametrizado y de instancia que da valores a todos los atributos.
-        public Villano(int id, string nombreReal, string nombrePersonaje, string lugarOrigen, string planMalvado)
-            : base (id, nombreReal, nombrePersonaje, lugarOrigen)
+        public Villano(string nombreReal, string nombrePersonaje, string lugarOrigen, string planMalvado)
+            : base (nombreReal, nombrePersonaje, lugarOrigen)
         {
             this.planMalvado = planMalvado;
         }

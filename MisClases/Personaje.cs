@@ -16,12 +16,14 @@ namespace MisClases
         protected List<string> habilidades;
 
         //propiedades
-        public int Id { get => id; }
+        public int Id { get => id; set => id = value; }
         public string NombreReal { get => nombreReal; set => nombreReal = value; }
 
         public string NombrePersonaje { get => nombrePersonaje; set => nombrePersonaje = value; }
 
         public string LugarOrigen { get => lugarOrigen; }
+
+        public string Tipo { get => this.GetType().Name; }
 
         //Descripcion: retorna el resultado del método MostrarDescripcion.
         public string Descripcion { get => this.MostrarDescripcion(); }
@@ -51,11 +53,10 @@ namespace MisClases
         }
 
         //Constructor público: recibe parámetros y se encarga de darle valores a todos los atributos MENOS A LA LISTA,
-        //no olvidar llamar al constructor privado.
-        public Personaje(int id, string nombreReal, string nombrePersonaje, string lugarOrigen) 
+        //no olvidar llamar al constructor privado. (No poner el id en el constructor)
+        public Personaje(string nombreReal, string nombrePersonaje, string lugarOrigen) 
             :this()
         {
-            this.id = id;
             this.nombreReal = nombreReal;
             this.nombrePersonaje = nombrePersonaje;
             this.lugarOrigen = lugarOrigen;

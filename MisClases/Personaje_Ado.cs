@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,17 +52,10 @@ namespace MisClases
                     planMalvado = ((Villano)pj).PlanMalvado;
                 }
 
-
-                string query = $"INSERT INTO personajes " +
-                    $"(Id, NombreReal, NombrePersonaje, LugarOrigen, Habilidades, Alianza, PlanMalvado) " +
-                    $"VALUES (@Id, @NombreReal','{pj.NombrePersonaje}','{pj.LugarOrigen}','{pj.Habilidades}','{alianza}','{planMalvado}')";
-
-
-                connection.Open();
-                command.CommandText = query;
-
-                command.Parameters.Clear();
-                command.Parameters.AddWithValue("@Id", pj.Id);
+                OpenConnection("INSERT INTO personajes " +
+                    "(NombreReal, NombrePersonaje, LugarOrigen, Habilidades, Alianza, PlanMalvado) " +
+                    "VALUES (@NombreReal, @NombrePersonaje, @LugarOrigen, @Habilidades, @alianza, @planMalvado)");
+                
                 command.Parameters.AddWithValue("@NombreReal", pj.NombreReal);
                 command.Parameters.AddWithValue("@NombrePersonaje", pj.NombrePersonaje);
                 command.Parameters.AddWithValue("@LugarOrigen", pj.LugarOrigen);
@@ -78,10 +72,7 @@ namespace MisClases
             }
             finally
             {
-                if (connection is not null && connection.State == System.Data.ConnectionState.Open)
-                {
-                    connection.Close();
-                }
+                CloseConnection();
             }
 
             return exito;
@@ -94,11 +85,10 @@ namespace MisClases
         public static List<Personaje> LeerTodos()
         {
             List<Personaje> list = new List<Personaje>();
-            string query = string.Empty;
 
             try
             {
-                query = "SELECT * FROM personajes";
+                string query = "SELECT * FROM personajes";
 
                 connection.Open();
                 command.CommandText = query;
@@ -134,13 +124,15 @@ namespace MisClases
 
                         if (string.IsNullOrEmpty(Alianza))
                         {
-                            Villano v = new Villano(Id, NombreReal, NombrePersonaje, LugarOrigen, PlanMalvado);
+                            Villano v = new Villano(NombreReal, NombrePersonaje, LugarOrigen, PlanMalvado);
+                            v.Id = Id;
                             v.CargarHabilidadesDesdeString(Habilidades);
                             list.Add(v);
                         }
                         else
                         {
-                            Heroe h = new Heroe(Id, NombreReal, NombrePersonaje, LugarOrigen, Alianza);
+                            Heroe h = new Heroe(NombreReal, NombrePersonaje, LugarOrigen, Alianza);
+                            h.Id = Id;
                             h.CargarHabilidadesDesdeString(Habilidades);
                             list.Add(h);
                         }
@@ -211,13 +203,15 @@ namespace MisClases
 
                     if (string.IsNullOrEmpty(Alianza))
                     {
-                        Villano v = new Villano(Id, NombreReal, NombrePersonaje, LugarOrigen, PlanMalvado);
+                        Villano v = new Villano(NombreReal, NombrePersonaje, LugarOrigen, PlanMalvado);
+                        v.Id = Id;
                         v.CargarHabilidadesDesdeString(Habilidades);
                         pj = v;
                     }
                     else
                     {
-                        Heroe h = new Heroe(Id, NombreReal, NombrePersonaje, LugarOrigen, Alianza);
+                        Heroe h = new Heroe(NombreReal, NombrePersonaje, LugarOrigen, Alianza);
+                        h.Id = Id;
                         h.CargarHabilidadesDesdeString(Habilidades);
                         pj = h;
                     }
@@ -246,14 +240,8 @@ namespace MisClases
 
             try
             {
-                string query = $"DELETE FROM personajes WHERE id = @personajeBuscado";
-                
-                connection.Open();
-                command.CommandText = query;
-
-                command.Parameters.Clear();
+                OpenConnection("DELETE FROM personajes WHERE id = @personajeBuscado");
                 command.Parameters.AddWithValue("@personajeBuscado", idEliminar);
-             
                 command.ExecuteNonQuery();
 
             }
@@ -263,23 +251,45 @@ namespace MisClases
             }
             finally
             {
-                if (connection is not null && connection.State == System.Data.ConnectionState.Open)
-                {
-                    connection.Close();
-                }
+                CloseConnection();
             }
             return exito;
         }
 
 
         //Metodo Modificar 
-        public static bool Modificar(Personaje p)
+        public static bool Modificar(Personaje pjModificar)
         {
             bool exito = true;
 
             try
             {
+                string planMalvado = string.Empty;
+                string alianza = string.Empty;
 
+                if (pjModificar.GetType().Name == typeof(Heroe).Name)
+                {
+                    alianza = ((Heroe)pjModificar).Alianza;
+                }
+                else
+                {
+                    planMalvado = ((Villano)pjModificar).PlanMalvado;
+                }
+
+
+                OpenConnection("UPDATE personajes SET NombreReal = @NombreReal," +
+                "NombrePersonaje = @NombrePersonaje, LugarOrigen = @LugarOrigen, Habilidades = @Habilidades," +
+                "Alianza = @Alianza, PlanMalvado = @PlanMalvado WHERE Id = @Id");
+
+                command.Parameters.AddWithValue("@Id", pjModificar.Id);
+                command.Parameters.AddWithValue("@NombreReal", pjModificar.NombreReal);
+                command.Parameters.AddWithValue("@NombrePersonaje", pjModificar.NombrePersonaje);
+                command.Parameters.AddWithValue("@LugarOrigen", pjModificar.LugarOrigen);
+                command.Parameters.AddWithValue("@Habilidades", pjModificar.Habilidades);
+                command.Parameters.AddWithValue("@alianza", alianza);
+                command.Parameters.AddWithValue("@planMalvado", planMalvado);
+
+                command.ExecuteNonQuery();
 
             }
             catch (Exception)
@@ -288,19 +298,30 @@ namespace MisClases
             }
             finally
             {
-                if (connection is not null && connection.State == System.Data.ConnectionState.Open)
-                {
-                    connection.Close();
-                }
+                CloseConnection();
             }
             return exito;
         }
 
-        //QUEDA DE TAREA PARA EL LUNES 26
-        //Matcheo por ID
-        //Modificar todo menos ID 
+        
+        //Metodos para abrir y cerrar conexion
+        private static void OpenConnection(string query)
+        {
+            command.Connection.Open();
+            command.CommandText = query;
 
-        //SET @pjModificar = 8;
-        //UPDATE personajes SET NombrePersonaje, etc, etc, WHERE id = @pjModificar
+            command.Parameters.Clear();
+
+        }
+
+        private static void CloseConnection()
+        {
+            if (connection is not null && connection.State == System.Data.ConnectionState.Open)
+            {
+                connection.Close();
+            }
+        }
+
+
     }
 }

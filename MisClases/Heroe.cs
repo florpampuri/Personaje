@@ -13,8 +13,8 @@ namespace MisClases
 
 
         //Tiene un único constructor público, parametrizado y de instancia que da valores a todos los atributos.
-        public Heroe(int id, string nombreReal, string nombrePersonaje, string lugarOrigen, string alianza)
-            : base (id,nombreReal, nombrePersonaje, lugarOrigen) //Llamo al constructor de la clase padre
+        public Heroe(string nombreReal, string nombrePersonaje, string lugarOrigen, string alianza)
+            : base (nombreReal, nombrePersonaje, lugarOrigen) //Llamo al constructor de la clase padre
         {
             this.alianza = alianza;
         }
