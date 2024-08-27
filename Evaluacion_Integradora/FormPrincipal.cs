@@ -15,6 +15,8 @@ namespace Evaluacion_Integradora
         private void FormPrincipal_Load(object sender, EventArgs e)
         {
             dataGridView1.RowHeadersVisible = false;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+           
             ActualizarDataGrid();
         }
 
@@ -57,12 +59,23 @@ namespace Evaluacion_Integradora
             Personaje pjModificar = dataGridView1.CurrentRow.DataBoundItem as Personaje;
 
             FormModificar formModificar = new FormModificar();
+
+            formModificar.miPersonaje = pjModificar;
             formModificar.ShowDialog();
 
             if (formModificar.DialogResult == DialogResult.OK)
             {
-                Personaje_Ado.Modificar(formModificar.miPersonaje);
-                ActualizarDataGrid();
+
+                if (Personaje_Ado.Modificar(formModificar.miPersonaje))
+                {
+                    MessageBox.Show("Personaje modificado con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ActualizarDataGrid();
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo modificar el personaje.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
             }
         }
 

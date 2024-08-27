@@ -71,8 +71,7 @@ namespace Evaluacion_Integradora
 
             bool listaConValores = false;
             bool control = false;
-            int id = (int)this.num_id.Value;
-
+            
 
             if (cmb_tipoPersonaje.SelectedItem!.ToString() == "Heroe")
             {
@@ -88,6 +87,7 @@ namespace Evaluacion_Integradora
                 }
 
                 this.miPersonaje = new Heroe(nombreReal, nombrePersonaje, lugarOrigen, alianza);
+                
 
                 foreach (CheckBox item in grp_habilidades.Controls)
                 {
@@ -110,6 +110,7 @@ namespace Evaluacion_Integradora
                 string planMalvado = rtx_planMalvado.Text;
 
                 this.miPersonaje = new Villano(nombreReal, nombrePersonaje, lugarOrigen, planMalvado);
+                
 
                 foreach (CheckBox item in grp_habilidades.Controls)
                 {

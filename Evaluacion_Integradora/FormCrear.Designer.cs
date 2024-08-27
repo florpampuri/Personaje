@@ -58,12 +58,9 @@
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            lbl_id = new Label();
-            num_id = new NumericUpDown();
             grp_habilidades.SuspendLayout();
             grp_alianza.SuspendLayout();
             grp_planMalvado.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)num_id).BeginInit();
             SuspendLayout();
             // 
             // cmb_tipoPersonaje
@@ -422,23 +419,6 @@
             label3.TabIndex = 17;
             label3.Text = "Seleccione el lugar de origen";
             // 
-            // lbl_id
-            // 
-            lbl_id.BackColor = Color.LemonChiffon;
-            lbl_id.Location = new Point(20, 22);
-            lbl_id.Name = "lbl_id";
-            lbl_id.Size = new Size(74, 19);
-            lbl_id.TabIndex = 18;
-            lbl_id.Text = "Id:";
-            // 
-            // num_id
-            // 
-            num_id.BackColor = Color.FromArgb(192, 255, 255);
-            num_id.Location = new Point(115, 18);
-            num_id.Name = "num_id";
-            num_id.Size = new Size(298, 23);
-            num_id.TabIndex = 19;
-            // 
             // FormCrear
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -446,8 +426,6 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(928, 440);
-            Controls.Add(num_id);
-            Controls.Add(lbl_id);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -471,7 +449,6 @@
             grp_alianza.ResumeLayout(false);
             grp_alianza.PerformLayout();
             grp_planMalvado.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)num_id).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -507,7 +484,5 @@
         private Label label1;
         private Label label2;
         private Label label3;
-        private Label lbl_id;
-        private NumericUpDown num_id;
     }
 }

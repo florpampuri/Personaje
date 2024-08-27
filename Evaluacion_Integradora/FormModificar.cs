@@ -39,44 +39,43 @@ namespace Evaluacion_Integradora
 
             #endregion
 
-
-            //num_id.Value = this.miPersonaje.Id;
-            //textBox1.Text = this.miPersonaje.NombrePersonaje;
-            //textBox2.Text = this.miPersonaje.NombreReal;
-            //lst_lugarOrigen.SelectedItem = miPersonaje.LugarOrigen;
-
-
-            //foreach (CheckBox cb in grp_habilidades.Controls)
-            //{
-            //    cb.Checked = false;
-
-            //    if (this.miPersonaje.Habilidades.Contains(cb.Text))
-            //    {
-            //        cb.Checked = true;
-            //    }
-            //}
+            textBox3.Text = miPersonaje.Id.ToString();
+            textBox1.Text = miPersonaje.NombrePersonaje;
+            textBox2.Text = miPersonaje.NombreReal;
+            lst_lugarOrigen.SelectedItem = miPersonaje.LugarOrigen;
 
 
-            //if (this.miPersonaje is Villano)
-            //{
-            //    Villano villano = (Villano)this.miPersonaje;
-            //    rtx_planMalvado.Text = villano.PlanMalvado;
-            //    cmb_tipoPersonaje.SelectedItem = "Villano";
-            //}
+            foreach (CheckBox cb in grp_habilidades.Controls)
+            {
+                cb.Checked = false;
 
-            //if (this.miPersonaje is Heroe)
-            //{
-            //    Heroe heroe = (Heroe)this.miPersonaje;
-            //    foreach (RadioButton rdb in grp_alianza.Controls)
-            //    {
-            //        if (rdb.Text == heroe.Alianza)
-            //        {
-            //            rdb.Checked = true;
-            //            break;
-            //        }
-            //    }
-            //    cmb_tipoPersonaje.SelectedItem = "Heroe";
-            //}
+                if (this.miPersonaje.Habilidades.Contains(cb.Text))
+                {
+                   cb.Checked = true;
+               }
+            }
+
+
+            if (this.miPersonaje is Villano)
+            {
+                Villano villano = (Villano)this.miPersonaje;
+                rtx_planMalvado.Text = villano.PlanMalvado;
+                cmb_tipoPersonaje.SelectedItem = "Villano";
+            }
+
+            if (this.miPersonaje is Heroe)
+            {
+                Heroe heroe = (Heroe)this.miPersonaje;
+                foreach (RadioButton rdb in grp_alianza.Controls)
+                {
+                    if (rdb.Text == heroe.Alianza)
+                    {
+                        rdb.Checked = true;
+                        break;
+                    }
+                }
+                cmb_tipoPersonaje.SelectedItem = "Heroe";
+            }
         }
 
         //evento que cambia entre "alianza" y "plan malvado"
@@ -105,7 +104,7 @@ namespace Evaluacion_Integradora
             string nombreReal = this.textBox2.Text;
             string nombrePersonaje = this.textBox1.Text;
             string lugarOrigen = lst_lugarOrigen.SelectedItem!.ToString()!;
-            int id = (int)this.num_id.Value;
+            int id = Int32.Parse(this.textBox3.Text);
 
             bool listaConValores = false;
             bool control = false;
@@ -125,7 +124,8 @@ namespace Evaluacion_Integradora
                 }
                 
                 this.miPersonaje = new Heroe(nombreReal, nombrePersonaje, lugarOrigen, alianza);
-
+                this.miPersonaje.Id = Int32.Parse(textBox3.Text); //Importante
+                
                 foreach (CheckBox item in grp_habilidades.Controls)
                 {
                     if (item.Checked)
@@ -147,6 +147,7 @@ namespace Evaluacion_Integradora
                 string planMalvado = rtx_planMalvado.Text;
 
                 this.miPersonaje = new Villano(nombreReal, nombrePersonaje, lugarOrigen, planMalvado);
+                this.miPersonaje.Id = Int32.Parse(textBox3.Text);
 
                 foreach (CheckBox item in grp_habilidades.Controls)
                 {

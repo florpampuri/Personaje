@@ -57,12 +57,11 @@
             btn_modificar = new Button();
             btn_cancelar = new Button();
             cmb_tipoPersonaje = new ComboBox();
-            num_id = new NumericUpDown();
             lbl_id = new Label();
+            textBox3 = new TextBox();
             grp_planMalvado.SuspendLayout();
             grp_alianza.SuspendLayout();
             grp_habilidades.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)num_id).BeginInit();
             SuspendLayout();
             // 
             // label3
@@ -420,15 +419,6 @@
             cmb_tipoPersonaje.Size = new Size(269, 23);
             cmb_tipoPersonaje.TabIndex = 19;
             // 
-            // num_id
-            // 
-            num_id.BackColor = Color.FromArgb(192, 255, 255);
-            num_id.Enabled = false;
-            num_id.Location = new Point(152, 28);
-            num_id.Name = "num_id";
-            num_id.Size = new Size(269, 23);
-            num_id.TabIndex = 32;
-            // 
             // lbl_id
             // 
             lbl_id.BackColor = Color.LemonChiffon;
@@ -438,12 +428,22 @@
             lbl_id.TabIndex = 31;
             lbl_id.Text = "Id:";
             // 
+            // textBox3
+            // 
+            textBox3.BackColor = Color.FromArgb(192, 255, 255);
+            textBox3.Enabled = false;
+            textBox3.Location = new Point(152, 28);
+            textBox3.Margin = new Padding(3, 2, 3, 2);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(268, 23);
+            textBox3.TabIndex = 32;
+            // 
             // FormModificar
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(954, 513);
-            Controls.Add(num_id);
+            Controls.Add(textBox3);
             Controls.Add(lbl_id);
             Controls.Add(label3);
             Controls.Add(label2);
@@ -466,7 +466,6 @@
             grp_alianza.PerformLayout();
             grp_habilidades.ResumeLayout(false);
             grp_habilidades.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)num_id).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -502,7 +501,7 @@
         private Button btn_modificar;
         private Button btn_cancelar;
         private ComboBox cmb_tipoPersonaje;
-        private NumericUpDown num_id;
         private Label lbl_id;
+        private TextBox textBox3;
     }
 }
